@@ -23,3 +23,7 @@ git = "https://github.com/pistondevelopers/current"
 
 git = "https://github.com/andelf/rust-sdl2_mixer"
 
+[dev-dependencies.piston]
+
+git = "https://github.com/pistondevelopers/piston"
+

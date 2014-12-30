@@ -48,3 +48,36 @@ pub fn start<T: Eq + Hash + 'static>(f: ||) {
     drop(music_tracks_guard);
 }
 
+/// Binds a file to value.
+pub fn bind_file<T: Eq + Hash + 'static>(val: T, file: &str) {
+    let track = mix::Music::from_file(&Path::new(file)).unwrap();
+    unsafe { current_music_tracks() }.insert(val, track);
+}
+
+/// Tells how many times to repeat.
+#[deriving(Copy)]
+pub enum Repeat {
+    /// Repeats forever.
+    Forever,
+    /// Repeats amount of times.
+    Times(u16),
+}
+
+impl Repeat {
+    fn to_sdl2_repeats(&self) -> int {
+        match self {
+            &Repeat::Forever => -1,
+            &Repeat::Times(val) => {
+                val as int
+            }
+        }
+    }
+}
+
+/// Plays a music track.
+pub fn play<T: Eq + Hash + 'static>(val: &T, repeat: Repeat) {
+    let _ = unsafe { current_music_tracks::<T>() }.get(val)
+        .expect("music: Attempted to play value that is not bound to asset")
+        .play(repeat.to_sdl2_repeats());
+}
+
