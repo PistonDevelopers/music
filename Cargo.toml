@@ -1,0 +1,25 @@
+[package]
+
+name = "piston-music"
+version = "0.0.0"
+authors = ["bvssvni <bvssvni@gmail.com>"]
+keywords = ["piston", "music"]
+description = "A high level library for playing music"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/PistonDevelopers/music.git"
+homepage = "https://github.com/PistonDevelopers/music"
+
+[lib]
+
+name = "music"
+path = "src/lib.rs"
+
+[dependencies.pistoncore-current]
+
+git = "https://github.com/pistondevelopers/current"
+
+[dependencies.sdl2_mixer]
+
+git = "https://github.com/andelf/rust-sdl2_mixer"
+
