@@ -1,22 +1,24 @@
-extern crate piston;
+extern crate piston_window;
 extern crate music;
 
-#[deriving(Copy, Hash, PartialEq, Eq)]
+use piston_window::*;
+
+#[derive(Copy, Clone, Hash, PartialEq, Eq)]
 enum Music {
     Piano,
 }
 
 fn main() {
-    piston::start(
-        piston::shader_version::OpenGL::_3_2,
-        piston::event::WindowSettings::default(),
-        || {
-        music::start::<Music>(|| {
-            music::bind_file(Music::Piano, "./assets/piano.wav");
-            music::play(&Music::Piano, music::Repeat::Forever);
-            
-            for _e in piston::events() {}
-        });
+    let window: PistonWindow = WindowSettings::new("Test music", [640, 480])
+        .exit_on_esc(true)
+        .build()
+        .unwrap();
+
+    music::start::<Music, _>(|| {
+        music::bind_file(Music::Piano, "./assets/piano.wav");
+        music::play(&Music::Piano, music::Repeat::Forever);
+        
+        for _e in window {}
     });
 }
 
