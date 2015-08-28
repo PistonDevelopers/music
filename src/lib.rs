@@ -12,6 +12,7 @@ use current::{ Current, CurrentGuard };
 use std::collections::HashMap;
 use std::hash::Hash;
 use std::marker::Reflect;
+use std::path::Path;
 
 fn init_audio() {
     // Load dynamic libraries.
@@ -56,7 +57,10 @@ pub fn start<T: Eq + Hash + 'static + Reflect, F: FnOnce()>(f: F) {
 }
 
 /// Binds a file to value.
-pub fn bind_file<T: Eq + Hash + 'static + Reflect>(val: T, file: &str) {
+pub fn bind_file<T, P>(val: T, file: P)
+    where T: 'static + Eq + Hash + Reflect,
+          P: AsRef<Path>
+{
     let track = mix::Music::from_file(&file.as_ref()).unwrap();
     unsafe { current_music_tracks() }.insert(val, track);
 }
