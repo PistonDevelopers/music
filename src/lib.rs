@@ -16,7 +16,8 @@ use std::path::Path;
 
 fn init_audio() {
     // Load dynamic libraries.
-    mix::init(
+    // Ignore formats that are not built in.
+    let _ = mix::init(
           mix::INIT_MP3
         | mix::INIT_FLAC
         | mix::INIT_MOD
