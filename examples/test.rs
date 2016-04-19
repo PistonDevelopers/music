@@ -9,7 +9,7 @@ enum Music {
 }
 
 fn main() {
-    let window: PistonWindow = WindowSettings::new("Test music", [640, 480])
+    let mut window: PistonWindow = WindowSettings::new("Test music", [640, 480])
         .exit_on_esc(true)
         .build()
         .unwrap();
@@ -18,7 +18,7 @@ fn main() {
         music::bind_file(Music::Piano, "./assets/piano.wav");
         music::play(&Music::Piano, music::Repeat::Forever);
         
-        for _e in window {}
+        while let Some(_e) = window.next() {}
     });
 }
 
