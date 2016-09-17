@@ -1,11 +1,11 @@
 [package]
 
 name = "piston-music"
-version = "0.12.0"
+version = "0.13.0"
 authors = ["bvssvni <bvssvni@gmail.com>"]
 keywords = ["piston", "music"]
 description = "A high level library for playing music"
-license = "MIT"
+license = "MIT OR Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/PistonDevelopers/music.git"
 homepage = "https://github.com/PistonDevelopers/music"
