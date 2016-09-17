@@ -1,4 +1,3 @@
-#![feature(reflect_marker)]
 #![deny(missing_docs)]
 
 //! A high level library for playing music
@@ -11,7 +10,7 @@ use sdl2_mixer as mix;
 use current::{ Current, CurrentGuard };
 use std::collections::HashMap;
 use std::hash::Hash;
-use std::marker::Reflect;
+use std::any::Any;
 use std::path::Path;
 
 fn init_audio() {
@@ -34,12 +33,12 @@ fn init_audio() {
     mix::allocate_channels(mix::DEFAULT_CHANNELS);
 }
 
-unsafe fn current_music_tracks<T: 'static + Reflect>() -> Current<HashMap<T, mix::Music>> {
+unsafe fn current_music_tracks<T: 'static + Any>() -> Current<HashMap<T, mix::Music>> {
     Current::new()
 }
 
 /// Initializes audio and sets up current objects.
-pub fn start<T: Eq + Hash + 'static + Reflect, F: FnOnce()>(f: F) {
+pub fn start<T: Eq + Hash + 'static + Any, F: FnOnce()>(f: F) {
     let sdl = sdl2::init().unwrap();
     let audio = sdl.audio().unwrap();
     let timer = sdl.timer().unwrap();
@@ -59,7 +58,7 @@ pub fn start<T: Eq + Hash + 'static + Reflect, F: FnOnce()>(f: F) {
 
 /// Binds a file to value.
 pub fn bind_file<T, P>(val: T, file: P)
-    where T: 'static + Eq + Hash + Reflect,
+    where T: 'static + Eq + Hash + Any,
           P: AsRef<Path>
 {
     let track = mix::Music::from_file(&file.as_ref()).unwrap();
@@ -87,7 +86,7 @@ impl Repeat {
 }
 
 /// Plays a music track.
-pub fn play<T: Eq + Hash + 'static + Reflect>(val: &T, repeat: Repeat) {
+pub fn play<T: Eq + Hash + 'static + Any>(val: &T, repeat: Repeat) {
     let _ = unsafe { current_music_tracks::<T>() }.get(val)
         .expect("music: Attempted to play value that is not bound to asset")
         .play(repeat.to_sdl2_repeats());
