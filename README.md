@@ -3,6 +3,17 @@ music
 
 A high level library for playing music
 
+## Requirements
+
+`music` currently depends on two external non-Rust libraries, [SDL2](https://www.libsdl.org/) and
+[SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/).
+
+- To install SDL2, follow the instructions on the 
+[`rust-sdl2`](https://github.com/AngryLawyer/rust-sdl2#requirements) library README.
+
+- To install SDL2_mixer, follow the instructions on the
+[`rust-sdl2-mixer`](https://github.com/andelf/rust-sdl2_mixer#requirements) library README.
+
 ## License
 
 Licensed under either of
