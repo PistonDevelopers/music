@@ -7,6 +7,12 @@ A high level library for playing music
 
 ## Requirements
 
+### Rust
+
+`music` targets the latest stable release of Rust.
+
+### External Dependencies
+
 `music` currently depends on two external non-Rust libraries, [SDL2](https://www.libsdl.org/) and
 [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/).
 
