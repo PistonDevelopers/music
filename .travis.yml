@@ -5,6 +5,12 @@ rust:
   - beta
   - nightly
 
+install:
+  # Steps copied from the rust-sdl2 project.
+  - wget https://www.libsdl.org/release/SDL2-2.0.4.tar.gz -O sdl2.tar.gz
+  - tar xzf sdl2.tar.gz
+  - pushd SDL2-2.0.4 && ./configure && make && sudo make install && popd
+
 matrix:
   allow_failures:
     - rust: nightly
