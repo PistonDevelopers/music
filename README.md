@@ -1,4 +1,5 @@
 # music
+[![Build Status](https://travis-ci.org/PistonDevelopers/music.svg)](https://travis-ci.org/PistonDevelopers/music)
 [![Crates.io](https://img.shields.io/crates/v/piston-music.svg)](https://crates.io/crates/piston-music)
 [![Crates.io](https://img.shields.io/crates/l/piston-music.svg)](https://github.com/PistonDevelopers/music/blob/master/LICENSE-MIT)
 
