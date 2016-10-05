@@ -86,7 +86,11 @@ impl Repeat {
 }
 
 /// Plays a music track.
-pub fn play<T: Eq + Hash + 'static + Any>(val: &T, repeat: Repeat) {
+///
+/// Set the volume on a scale of 0 to 128.
+/// Values greater than 128 will use 128.
+pub fn play<T: Eq + Hash + 'static + Any>(val: &T, repeat: Repeat, volume: isize) {
+    mix::Music::set_volume(volume);
     let _ = unsafe { current_music_tracks::<T>() }.get(val)
         .expect("music: Attempted to play value that is not bound to asset")
         .play(repeat.to_sdl2_repeats());

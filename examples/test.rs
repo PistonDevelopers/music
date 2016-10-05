@@ -1,5 +1,6 @@
 extern crate piston_window;
 extern crate music;
+extern crate sdl2_mixer;
 
 use piston_window::*;
 
@@ -16,7 +17,7 @@ fn main() {
 
     music::start::<Music, _>(|| {
         music::bind_file(Music::Piano, "./assets/piano.wav");
-        music::play(&Music::Piano, music::Repeat::Forever);
+        music::play(&Music::Piano, music::Repeat::Forever, sdl2_mixer::MAX_VOLUME);
         
         while let Some(e) = window.next() {
             window.draw_2d(&e, |_c, g| {
