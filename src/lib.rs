@@ -13,6 +13,9 @@ use std::hash::Hash;
 use std::any::Any;
 use std::path::Path;
 
+/// Maximum value for playback volume parameter.
+pub const MAX_VOLUME: f64 = 1.0;
+
 fn init_audio() {
     // Load dynamic libraries.
     // Ignore formats that are not built in.
@@ -42,7 +45,7 @@ pub fn start<T: Eq + Hash + 'static + Any, F: FnOnce()>(f: F) {
     let sdl = sdl2::init().unwrap();
     let audio = sdl.audio().unwrap();
     let timer = sdl.timer().unwrap();
-    
+
     init_audio();
     let mut music_tracks: HashMap<T, mix::Music> = HashMap::new();
 
@@ -87,10 +90,12 @@ impl Repeat {
 
 /// Plays a music track.
 ///
-/// Set the volume on a scale of 0 to 128.
-/// Values greater than 128 will use 128.
-pub fn play<T: Eq + Hash + 'static + Any>(val: &T, repeat: Repeat, volume: isize) {
-    mix::Music::set_volume(volume);
+/// The volume is set on a scale of 0.0 to 1.0, which means 0-100%.
+/// Values greater than 1.0 will use 1.0.
+/// Values less than 0.0 will use 0.0.
+pub fn play<T: Eq + Hash + 'static + Any>(val: &T, repeat: Repeat, volume: f64) {
+    // Map 0.0 to 1.0 to 0 - 128 (sdl2_mixer::MAX_VOLUME).
+    mix::Music::set_volume((volume.max(0.0).min(1.0) * mix::MAX_VOLUME as f64) as isize);
     let _ = unsafe { current_music_tracks::<T>() }.get(val)
         .expect("music: Attempted to play value that is not bound to asset")
         .play(repeat.to_sdl2_repeats());
