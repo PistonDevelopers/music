@@ -27,3 +27,4 @@ os:
 script:
     - cargo build
     - cargo build --example test
+    - cargo build --example test-mp3
