@@ -15,10 +15,8 @@ fn main() {
         .unwrap();
 
     music::start::<Music, _>(|| {
-        music::bind_file(Music::Piano, "./assets/piano.wav");
-        music::set_volume(music::MAX_VOLUME);
+        music::bind_file(Music::Piano, "./assets/piano.mp3");
         music::play(&Music::Piano, music::Repeat::Forever);
-
         while let Some(e) = window.next() {
             window.draw_2d(&e, |_c, g| {
                 clear([1.0; 4], g);
@@ -26,4 +24,3 @@ fn main() {
         }
     });
 }
-
