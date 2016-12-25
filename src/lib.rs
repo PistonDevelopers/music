@@ -3,10 +3,9 @@
 //! A high level library for playing music
 
 extern crate current;
-extern crate sdl2_mixer;
 extern crate sdl2;
 
-use sdl2_mixer as mix;
+use sdl2::mixer as mix;
 use current::{ Current, CurrentGuard };
 use std::collections::HashMap;
 use std::hash::Hash;
@@ -81,11 +80,11 @@ pub enum Repeat {
 }
 
 impl Repeat {
-    fn to_sdl2_repeats(&self) -> isize {
+    fn to_sdl2_repeats(&self) -> i32 {
         match self {
             &Repeat::Forever => -1,
             &Repeat::Times(val) => {
-                val as isize
+                val as i32
             }
         }
     }
@@ -99,7 +98,7 @@ impl Repeat {
 pub fn set_volume(volume: f64) {
     // Map 0.0 - 1.0 to 0 - 128 (sdl2_mixer::MAX_VOLUME).
     mix::Music::set_volume((volume.max(MIN_VOLUME).min(MAX_VOLUME) * mix::MAX_VOLUME as f64)
-        as isize);
+        as i32);
 }
 
 /// Plays a music track.

@@ -17,8 +17,11 @@ path = "src/lib.rs"
 
 [dependencies]
 current = "0.1.2"
-sdl2_mixer = "0.24.0"
-sdl2 = "0.24.0"
+
+[dependencies.sdl2]
+version = "0.27.2"
+default-features = false
+features = ["mixer"]
 
 [dev-dependencies]
 piston_window = "0.60.0"
