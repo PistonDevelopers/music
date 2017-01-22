@@ -81,9 +81,9 @@ pub enum Repeat {
 
 impl Repeat {
     fn to_sdl2_repeats(&self) -> i32 {
-        match self {
-            &Repeat::Forever => -1,
-            &Repeat::Times(val) => {
+        match *self {
+            Repeat::Forever => -1,
+            Repeat::Times(val) => {
                 val as i32
             }
         }
