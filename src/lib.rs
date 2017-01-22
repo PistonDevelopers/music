@@ -66,7 +66,7 @@ pub fn bind_file<T, P>(val: T, file: P)
     where T: 'static + Eq + Hash + Any,
           P: AsRef<Path>
 {
-    let track = mix::Music::from_file(&file.as_ref()).unwrap();
+    let track = mix::Music::from_file(file.as_ref()).unwrap();
     unsafe { current_music_tracks() }.insert(val, track);
 }
 
