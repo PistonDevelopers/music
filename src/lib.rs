@@ -31,7 +31,7 @@ fn init_audio() {
     mix::allocate_channels(mix::DEFAULT_CHANNELS);
 }
 
-unsafe fn current_music_tracks<T: 'static + Any>() -> Current<HashMap<T, mix::Music>> {
+unsafe fn current_music_tracks<T: 'static + Any>() -> Current<HashMap<T, mix::Music<'static>>> {
     Current::new()
 }
 
