@@ -88,7 +88,7 @@ impl Repeat {
 /// Values greater than 1.0 will use 1.0.
 /// Values less than 0.0 will use 0.0.
 pub fn set_volume(volume: f64) {
-    // Map 0.0 - 1.0 to 0 - 128 (sdl2_mixer::MAX_VOLUME).
+    // Map 0.0 - 1.0 to 0 - 128 (sdl2::mixer::MAX_VOLUME).
     mixer::Music::set_volume((volume.max(MIN_VOLUME).min(MAX_VOLUME) *
                               mixer::MAX_VOLUME as f64) as i32);
 }
