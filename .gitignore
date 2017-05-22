@@ -27,5 +27,6 @@ watch.sh
 !/examples/*.rs
 !/examples/assets/
 !/bin/assets/
+.idea
 
 Cargo.lock
