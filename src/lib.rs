@@ -122,9 +122,11 @@ pub fn play_music<T: Eq + Hash + 'static + Any>(val: &T, repeat: Repeat) {
 /// Plays a sound effect track.
 pub fn play_sound<T: Eq + Hash + 'static + Any>(val: &T, repeat: Repeat) {
     unsafe {
-        sdl2::mixer::Channel::all().play(current_sound_tracks::<T>()
-            .get(val)
-            .expect("music: Attempted to play value that is not bound to asset"),
-                                         repeat.to_sdl2_repeats());
+        sdl2::mixer::Channel::all()
+            .play(current_sound_tracks::<T>()
+                      .get(val)
+                      .expect("music: Attempted to play value that is not bound to asset"),
+                  repeat.to_sdl2_repeats())
+            .unwrap();
     }
 }
