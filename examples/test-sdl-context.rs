@@ -24,7 +24,7 @@ fn main() {
     // sdl context for audio
     let sdl = window.window.sdl_context.to_owned();
 
-    music::start::<Music, Sound, _>(Option::from(sdl), || {
+    music::start_with_context::<Music, Sound, _>(&sdl, || {
         music::bind_music_file(Music::Piano, "./assets/piano.wav");
         music::bind_sound_file(Sound::Ding, "./assets/ding.wav");
 
