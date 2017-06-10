@@ -19,14 +19,14 @@ fn main() {
         .build()
         .unwrap();
 
-    music::start::<Music, Sound, _>(|| {
-                                    music::bind_music_file(Music::Piano, "./assets/piano.mp3");
-                                    music::bind_sound_file(Sound::Ding, "./assets/ding.mp3");
+    music::start::<Music, Sound, _>(None, || {
+        music::bind_music_file(Music::Piano, "./assets/piano.mp3");
+        music::bind_sound_file(Sound::Ding, "./assets/ding.mp3");
 
-                                    music::play_music(&Music::Piano, music::Repeat::Forever);
-                                    music::play_sound(&Sound::Ding, music::Repeat::Times(1));
-                                    while let Some(e) = window.next() {
-                                        window.draw_2d(&e, |_c, g| { clear([1.0; 4], g); });
-                                    }
-                                });
+        music::play_music(&Music::Piano, music::Repeat::Forever);
+        music::play_sound(&Sound::Ding, music::Repeat::Times(1));
+        while let Some(e) = window.next() {
+            window.draw_2d(&e, |_c, g| { clear([1.0; 4], g); });
+        }
+    });
 }
