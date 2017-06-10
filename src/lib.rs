@@ -43,11 +43,16 @@ unsafe fn current_sound_tracks<T: 'static + Any>() -> Current<HashMap<T, mixer::
 }
 
 /// Initializes audio and sets up current objects.
-pub fn start<M: Eq + Hash + 'static + Any, S: Eq + Hash + 'static + Any, F: FnOnce()>(f: F) {
-    let sdl = sdl2::init().unwrap();
+pub fn start<M: Eq + Hash + 'static + Any, S: Eq + Hash + 'static + Any, F: FnOnce()>(context: Option<sdl2::Sdl>, f: F) {
+
+    let sdl = match context {
+       Some(sdl_context) => sdl_context,
+       None => sdl2::init().unwrap(),
+    };
+    
     let audio = sdl.audio().unwrap();
     let timer = sdl.timer().unwrap();
-
+    
     init_audio();
     let mut music_tracks: HashMap<M, mixer::Music> = HashMap::new();
     let music_tracks_guard = CurrentGuard::new(&mut music_tracks);
@@ -56,7 +61,7 @@ pub fn start<M: Eq + Hash + 'static + Any, S: Eq + Hash + 'static + Any, F: FnOn
     let sound_tracks_guard = CurrentGuard::new(&mut sound_tracks);
 
     f();
-
+    
     drop(sound_tracks_guard);
     drop(music_tracks_guard);
     drop(timer);
