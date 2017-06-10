@@ -44,9 +44,12 @@ unsafe fn current_sound_tracks<T: 'static + Any>() -> Current<HashMap<T, mixer::
 
 /// Initializes audio and sets up current objects.
 pub fn start<M: Eq + Hash + 'static + Any, S: Eq + Hash + 'static + Any, F: FnOnce()>(context: Option<sdl2::Sdl>, f: F) {
-
+    let mut manage_sdl_context = true;
     let sdl = match context {
-       Some(sdl_context) => sdl_context,
+       Some(sdl_context) => {
+       			 manage_sdl_context = false;
+       			 sdl_context
+			 },
        None => sdl2::init().unwrap(),
     };
     
@@ -66,7 +69,9 @@ pub fn start<M: Eq + Hash + 'static + Any, S: Eq + Hash + 'static + Any, F: FnOn
     drop(music_tracks_guard);
     drop(timer);
     drop(audio);
-    drop(sdl);
+    if manage_sdl_context {
+       drop(sdl);
+    }
 }
 
 /// Binds a music file to value.
