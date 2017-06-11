@@ -42,3 +42,4 @@ test_script:
   - cargo build --verbose
   - cargo build --verbose --example test
   - cargo build --example test-mp3
+  - cargo build --example test-sdl-context
