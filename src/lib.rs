@@ -108,15 +108,20 @@ impl Repeat {
     }
 }
 
-/// Sets the volume of the music mixer and all sound channels.
+/// Sets the volume of the music mixer.
 ///
 /// The volume is set on a scale of 0.0 to 1.0, which means 0-100%.
 /// Values greater than 1.0 will use 1.0.
 /// Values less than 0.0 will use 0.0.
 pub fn set_volume(volume: f64) {
-    // Map 0.0 - 1.0 to 0 - 128 (sdl2::mixer::MAX_VOLUME).
-    mixer::Music::set_volume((volume.max(MIN_VOLUME).min(MAX_VOLUME) *
-                              mixer::MAX_VOLUME as f64) as i32);
+    return mixer::Music::set_volume(to_sdl2_volume(volume));
+}
+
+/// Converts from piston_music volume representation to SDL2 representation.
+///
+/// Map 0.0 - 1.0 to 0 - 128 (sdl2::mixer::MAX_VOLUME).
+fn to_sdl2_volume(volume: f64) -> i32 {
+    (volume.max(MIN_VOLUME).min(MAX_VOLUME) * mixer::MAX_VOLUME as f64) as i32
 }
 
 /// Plays a music track.
@@ -128,10 +133,13 @@ pub fn play_music<T: Eq + Hash + 'static + Any>(val: &T, repeat: Repeat) {
 }
 
 /// Plays a sound effect track.
-pub fn play_sound<T: Eq + Hash + 'static + Any>(val: &T, repeat: Repeat) {
+///
+/// The volume is set on a scale of 0.0 to 1.0, which means 0-100%.
+/// Values greater than 1.0 will use 1.0.
+/// Values less than 0.0 will use 0.0.
+pub fn play_sound<T: Eq + Hash + 'static + Any>(val: &T, repeat: Repeat, volume: f64) {
     let channel = sdl2::mixer::Channel::all();
-    // Share the volume of the Music channel.
-    channel.set_volume(mixer::Music::get_volume());
+    channel.set_volume(to_sdl2_volume(volume));
     unsafe {
         channel
             .play(current_sound_tracks::<T>()
