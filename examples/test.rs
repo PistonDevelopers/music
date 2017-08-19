@@ -25,7 +25,7 @@ fn main() {
 
         music::set_volume(music::MAX_VOLUME);
         music::play_music(&Music::Piano, music::Repeat::Forever);
-        music::play_sound(&Sound::Ding, music::Repeat::Times(1));
+        music::play_sound(&Sound::Ding, music::Repeat::Times(1), music::MAX_VOLUME);
         while let Some(e) = window.next() {
             window.draw_2d(&e, |_c, g| { clear([1.0; 4], g); });
         }
