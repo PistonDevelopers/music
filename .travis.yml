@@ -28,3 +28,4 @@ script:
     - cargo build
     - cargo build --example test
     - cargo build --example test-mp3
+    - cargo build --example test-sdl-context
