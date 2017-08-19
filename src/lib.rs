@@ -18,7 +18,8 @@ pub const MIN_VOLUME: f64 = 0.0;
 /// Maximum value for playback volume parameter.
 pub const MAX_VOLUME: f64 = 1.0;
 
-fn init_audio() {
+/// Initializes the audio mixer and allocates the number of concurrent sound channels.
+fn init_audio(num_sound_channels: i32) {
     // Load dynamic libraries.
     // Ignore formats that are not built in.
     let _ = mixer::init(mixer::INIT_MP3 | mixer::INIT_FLAC | mixer::INIT_MOD |
@@ -31,7 +32,7 @@ fn init_audio() {
             .unwrap();
     // Sets the number of simultaneous sound effects channels
     // that are available.
-    mixer::allocate_channels(16);
+    mixer::allocate_channels(num_sound_channels);
 }
 
 unsafe fn current_music_tracks<T: 'static + Any>() -> Current<HashMap<T, mixer::Music<'static>>> {
@@ -43,21 +44,27 @@ unsafe fn current_sound_tracks<T: 'static + Any>() -> Current<HashMap<T, mixer::
 }
 
 /// Creates SDL context and starts the audio context
-pub fn start<M: Eq + Hash + 'static + Any, S: Eq + Hash + 'static + Any, F: FnOnce()>(f: F) {
+///
+/// * `num_sound_channels`: The number of concurrent sound channels to allocate. This limits
+///  the number of sounds that can be played simultaneously.
+pub fn start<M: Eq + Hash + 'static + Any, S: Eq + Hash + 'static + Any, F: FnOnce()>
+    (num_sound_channels: i32, f: F) {
     let sdl = sdl2::init().unwrap();
-    start_context::<M, S, _>(&sdl, f);
+    start_context::<M, S, _>(&sdl, num_sound_channels, f);
     drop(sdl);
 }
 
 /// Initializes audio and sets up current objects
+///
+/// * `num_sound_channels`: The number of concurrent sound channels to allocate. This limits
+///  the number of sounds that can be played simultaneously.
 pub fn start_context<M: Eq + Hash + 'static + Any, S: Eq + Hash + 'static + Any, F: FnOnce()>
-    (sdl: &sdl2::Sdl,
-f: F){
+    (sdl: &sdl2::Sdl, num_sound_channels: i32, f: F){
 
     let audio = sdl.audio().unwrap();
     let timer = sdl.timer().unwrap();
 
-    init_audio();
+    init_audio(num_sound_channels);
     let mut music_tracks: HashMap<M, mixer::Music> = HashMap::new();
     let music_tracks_guard = CurrentGuard::new(&mut music_tracks);
 

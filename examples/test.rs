@@ -19,7 +19,7 @@ fn main() {
         .build()
         .unwrap();
 
-    music::start::<Music, Sound, _>(|| {
+    music::start::<Music, Sound, _>(16, || {
         music::bind_music_file(Music::Piano, "./assets/piano.wav");
         music::bind_sound_file(Sound::Ding, "./assets/ding.wav");
 
