@@ -5,7 +5,7 @@
 [![Crates.io](https://img.shields.io/crates/l/piston-music.svg)](https://github.com/PistonDevelopers/music/blob/master/LICENSE-MIT)
 
 
-A high level library for playing music
+A high level library for playing music and sound effects
 
 ## Requirements
 
