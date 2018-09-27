@@ -1,5 +1,6 @@
 # music
 [![Build Status](https://travis-ci.org/PistonDevelopers/music.svg)](https://travis-ci.org/PistonDevelopers/music)
+[![Build status](https://ci.appveyor.com/api/projects/status/axt1564g44543ofi?svg=true)](https://ci.appveyor.com/project/bvssvni/music-l080n)
 [![Crates.io](https://img.shields.io/crates/v/piston-music.svg)](https://crates.io/crates/piston-music)
 [![Crates.io](https://img.shields.io/crates/d/piston-music.svg)](https://crates.io/crates/piston-music)
 [![Crates.io](https://img.shields.io/crates/l/piston-music.svg)](https://github.com/PistonDevelopers/music/blob/master/LICENSE-MIT)
