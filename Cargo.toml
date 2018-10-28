@@ -26,4 +26,4 @@ features = ["mixer"]
 
 [dev-dependencies]
 piston_window = "0.82.0"
-pistoncore-sdl2_window = "0.51.0"
+pistoncore-sdl2_window = "0.50.0"
