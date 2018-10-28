@@ -23,7 +23,6 @@ fn init_audio(num_sound_channels: i32) {
     // Load dynamic libraries.
     // Ignore formats that are not built in.
     let _ = mixer::init(mixer::INIT_MP3 | mixer::INIT_FLAC | mixer::INIT_MOD |
-                        mixer::INIT_FLUIDSYNTH | mixer::INIT_MODPLUG |
                         mixer::INIT_OGG);
     mixer::open_audio(mixer::DEFAULT_FREQUENCY,
                       mixer::DEFAULT_FORMAT,
