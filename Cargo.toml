@@ -25,5 +25,5 @@ default-features = false
 features = ["mixer"]
 
 [dev-dependencies]
-piston_window = "0.80.0"
-pistoncore-sdl2_window = "0.50.0"
+piston_window = "0.83.0"
+pistoncore-sdl2_window = "0.51.0"
