@@ -145,13 +145,13 @@ pub fn play_music<T: Eq + Hash + 'static + Any>(val: &T, repeat: Repeat) {
 /// Values less than 0.0 will use 0.0.
 pub fn play_sound<T: Eq + Hash + 'static + Any>(val: &T, repeat: Repeat, volume: f64) {
     let channel = sdl2::mixer::Channel::all();
-    channel.set_volume(to_sdl2_volume(volume));
     unsafe {
         channel
             .play(current_sound_tracks::<T>()
                       .get(val)
                       .expect("music: Attempted to play value that is not bound to asset"),
                   repeat.to_sdl2_repeats())
-            .unwrap();
+            .unwrap()
+            .set_volume(to_sdl2_volume(volume));
     }
 }
