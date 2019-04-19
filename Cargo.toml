@@ -1,7 +1,7 @@
 [package]
 
 name = "piston-music"
-version = "0.25.0"
+version = "0.25.1"
 authors = ["bvssvni <bvssvni@gmail.com>"]
 keywords = ["piston", "music"]
 description = "A high level library for playing music and sound effects"
