@@ -22,6 +22,16 @@ A high level library for playing music and sound effects
 - To install SDL2 and SDL2_mixer, follow the instructions on the 
 [`rust-sdl2`](https://github.com/AngryLawyer/rust-sdl2#requirements) library README.
 
+## Run
+
+To run the built in examples for this project, run one of the following:
+
+```bash
+$ cargo run --example test
+
+$ cargo build --example test-mp3
+```
+
 ## License
 
 Licensed under either of
