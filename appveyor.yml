@@ -22,14 +22,14 @@ install:
   - cargo -V
 
   # Install SDL2.
-  - ps: Start-FileDownload https://www.libsdl.org/release/SDL2-devel-2.0.8-VC.zip -FileName sdl2.zip
+  - ps: Start-FileDownload https://www.libsdl.org/release/SDL2-devel-2.0.10-VC.zip -FileName sdl2.zip
   - ps: Expand-Archive sdl2.zip -DestinationPath sdl2
-  - set LIB=%LIB%;C:\projects\music\sdl2\SDL2-2.0.8\lib\x64
+  - set LIB=%LIB%;C:\projects\music\sdl2\SDL2-2.0.10\lib\x64
 
   # Install SDL2_Mixer.
-  - ps: Start-FileDownload https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.2-VC.zip -FileName sdl2_mixer.zip
+  - ps: Start-FileDownload https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.4-VC.zip -FileName sdl2_mixer.zip
   - ps: Expand-Archive sdl2_mixer.zip -DestinationPath sdl2_mixer
-  - set LIB=%LIB%;C:\projects\music\sdl2_mixer\SDL2_mixer-2.0.2\lib\x64
+  - set LIB=%LIB%;C:\projects\music\sdl2_mixer\SDL2_mixer-2.0.4\lib\x64
   - ps: Get-ChildItem -Recurse -Depth 4
 
 # 'cargo test' takes care of building for us, so disable Appveyor's build stage. This prevents
