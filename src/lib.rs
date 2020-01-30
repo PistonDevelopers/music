@@ -5,11 +5,11 @@
 extern crate current;
 extern crate sdl2;
 
-use sdl2::mixer;
 use current::{Current, CurrentGuard};
+use sdl2::mixer;
+use std::any::Any;
 use std::collections::HashMap;
 use std::hash::Hash;
-use std::any::Any;
 use std::path::Path;
 
 /// Minimum value for playback volume parameter.
@@ -22,13 +22,16 @@ pub const MAX_VOLUME: f64 = 1.0;
 fn init_audio(num_sound_channels: i32) {
     // Load dynamic libraries.
     // Ignore formats that are not built in.
-    let _ = mixer::init(mixer::InitFlag::MP3 | mixer::InitFlag::FLAC | mixer::InitFlag::MOD |
-                        mixer::InitFlag::OGG);
-    mixer::open_audio(mixer::DEFAULT_FREQUENCY,
-                      mixer::DEFAULT_FORMAT,
-                      mixer::DEFAULT_CHANNELS,
-                      1024)
-            .unwrap();
+    let _ = mixer::init(
+        mixer::InitFlag::MP3 | mixer::InitFlag::FLAC | mixer::InitFlag::MOD | mixer::InitFlag::OGG,
+    );
+    mixer::open_audio(
+        mixer::DEFAULT_FREQUENCY,
+        mixer::DEFAULT_FORMAT,
+        mixer::DEFAULT_CHANNELS,
+        1024,
+    )
+    .unwrap();
     // Sets the number of simultaneous sound effects channels
     // that are available.
     mixer::allocate_channels(num_sound_channels);
@@ -46,8 +49,10 @@ unsafe fn current_sound_tracks<T: 'static + Any>() -> Current<HashMap<T, mixer::
 ///
 /// * `num_sound_channels`: The number of concurrent sound channels to allocate. This limits
 ///  the number of sounds that can be played simultaneously.
-pub fn start<M: Eq + Hash + 'static + Any, S: Eq + Hash + 'static + Any, F: FnOnce()>
-    (num_sound_channels: i32, f: F) {
+pub fn start<M: Eq + Hash + 'static + Any, S: Eq + Hash + 'static + Any, F: FnOnce()>(
+    num_sound_channels: i32,
+    f: F,
+) {
     let sdl = sdl2::init().unwrap();
     start_context::<M, S, _>(&sdl, num_sound_channels, f);
     drop(sdl);
@@ -57,9 +62,11 @@ pub fn start<M: Eq + Hash + 'static + Any, S: Eq + Hash + 'static + Any, F: FnOn
 ///
 /// * `num_sound_channels`: The number of concurrent sound channels to allocate. This limits
 ///  the number of sounds that can be played simultaneously.
-pub fn start_context<M: Eq + Hash + 'static + Any, S: Eq + Hash + 'static + Any, F: FnOnce()>
-    (sdl: &sdl2::Sdl, num_sound_channels: i32, f: F){
-
+pub fn start_context<M: Eq + Hash + 'static + Any, S: Eq + Hash + 'static + Any, F: FnOnce()>(
+    sdl: &sdl2::Sdl,
+    num_sound_channels: i32,
+    f: F,
+) {
     let audio = sdl.audio().unwrap();
     let timer = sdl.timer().unwrap();
 
@@ -80,8 +87,9 @@ pub fn start_context<M: Eq + Hash + 'static + Any, S: Eq + Hash + 'static + Any,
 
 /// Binds a music file to value.
 pub fn bind_music_file<T, P>(val: T, file: P)
-    where T: 'static + Eq + Hash + Any,
-          P: AsRef<Path>
+where
+    T: 'static + Eq + Hash + Any,
+    P: AsRef<Path>,
 {
     let track = mixer::Music::from_file(file.as_ref()).unwrap();
     unsafe { current_music_tracks() }.insert(val, track);
@@ -89,8 +97,9 @@ pub fn bind_music_file<T, P>(val: T, file: P)
 
 /// Binds a sound file to value.
 pub fn bind_sound_file<T, P>(val: T, file: P)
-    where T: 'static + Eq + Hash + Any,
-          P: AsRef<Path>
+where
+    T: 'static + Eq + Hash + Any,
+    P: AsRef<Path>,
 {
     let track = mixer::Chunk::from_file(file.as_ref()).unwrap();
     unsafe { current_sound_tracks() }.insert(val, track);
@@ -147,10 +156,12 @@ pub fn play_sound<T: Eq + Hash + 'static + Any>(val: &T, repeat: Repeat, volume:
     let channel = sdl2::mixer::Channel::all();
     unsafe {
         channel
-            .play(current_sound_tracks::<T>()
-                      .get(val)
-                      .expect("music: Attempted to play value that is not bound to asset"),
-                  repeat.to_sdl2_repeats())
+            .play(
+                current_sound_tracks::<T>()
+                    .get(val)
+                    .expect("music: Attempted to play value that is not bound to asset"),
+                repeat.to_sdl2_repeats(),
+            )
             .unwrap()
             .set_volume(to_sdl2_volume(volume));
     }
