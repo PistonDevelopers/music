@@ -1,5 +1,5 @@
-extern crate piston_window;
 extern crate music;
+extern crate piston_window;
 extern crate sdl2_window;
 
 use piston_window::*;
@@ -32,7 +32,9 @@ fn main() {
         music::play_music(&Music::Piano, music::Repeat::Forever);
         music::play_sound(&Sound::Ding, music::Repeat::Times(1), music::MAX_VOLUME);
         while let Some(e) = window.next() {
-            window.draw_2d(&e, |_c, g| { clear([1.0; 4], g); });
+            window.draw_2d(&e, |_c, g| {
+                clear([1.0; 4], g);
+            });
         }
     });
 }
